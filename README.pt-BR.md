@@ -1,6 +1,11 @@
+<div align="center">
+  <img src="https://i.imgur.com/UCnaQ4V.png" width="500"><br/>
+  <a href="README.pt-BR.md">
+    <img src="https://img.shields.io/badge/Leia%20em-Ingles-blue"/><br/>
+  </a>
+  <p>📔 Um pequeno guia de instalação para Arch Linux para mim.</p>
+</div>
 
-# my-arch-install
-📔 A little guide to install the Arch Linux for me
 
 ## Teclado
 Primeiro cheque se o meu teclado está no layout correto, por que por padrão a Instalação do Arch vem com o teclado em layout en-US.
@@ -216,3 +221,8 @@ sudo dhcpcd
 ```
 
 E pronto, o Arch Linux está instalado e configurado, a partir daí é só configurar o seu sistema do jeito que você quiser.
+
+---
+<div align="center">
+  <img src="https://i.imgur.com/GSschky.jpeg">
+</div>
