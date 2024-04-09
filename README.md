@@ -1,5 +1,11 @@
-# my-arch-install
-📔 A little guide to install the Arch Linux for me
+<div align="center">
+  <img src="https://i.imgur.com/SZRtuUM.png" width="500"><br/>
+  <a href="README.pt-BR.md">
+    <img src="https://img.shields.io/badge/Read%20in-Portuguese-blue"/><br/>
+  </a>
+  <p>📔 A little guide to install the Arch Linux for me</p>
+</div>
+
 
 ## Keyboard 
 First, check if my keyboard is in the correct layout, since by default the Arch installation comes with the keyboard in en-US layout.
@@ -225,3 +231,8 @@ Now exit the root user and check if it is already possible to use the root comma
 sudo dhcpcd
 ```
 And that's it, Arch Linux is installed and configured, from there you just need to configure your system the way you want.
+
+---
+<div align="center">
+  <img src="https://i.imgur.com/GSschky.jpeg">
+</div>
