@@ -21,7 +21,10 @@ Descubra o nome do dispositivo de rede Wi-Fi que está em seu computador com o c
 ```
 [iwd]# device list
 ```
-![iwctl](https://i.imgur.com/GGxULsZ.png)
+
+<div align="center">
+  <img src="https://i.imgur.com/GGxULsZ.png">
+</div>
 
 Agora que sabemos que nossos dispositivo se chama **wlan0**
 Para procurar as redes perto utilizamos:

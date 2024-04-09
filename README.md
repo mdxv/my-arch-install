@@ -21,7 +21,10 @@ Find out the name of the Wi-Fi network device on your computer with the command:
 ```
 [iwd]# device list
 ```
-![iwctl](https://i.imgur.com/GGxULsZ.png)
+
+<div align="center">
+  <img src="https://i.imgur.com/GGxULsZ.png">
+</div>
 
 Now that we know our device is called wlan0, we use the following command to scan for nearby networks:
 ```
