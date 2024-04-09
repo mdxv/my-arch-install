@@ -45,7 +45,7 @@ Enter the password and the Wi-Fi will be connected.
 
 To check, just ping any website.
 
-## Particionamento de disco
+## Disk Partitioning
 First, run the **fdisk** command to list the partitions:
 
 ```bash
@@ -58,169 +58,170 @@ It will list all the storage devices on the computer, the disk that is normally 
   <img src="https://i.imgur.com/62SPwt3.png">
 </div>
 
-Agora para particionar o disco utilizamos a ferramenta de **cfdisk** por ser de fácil utilização.
+Now to partition the disk we use the **cfdisk** tool because it is easy to use.
 
-No meu caso, eu sempre crio 3 partições:
-- /dev/sda1 (500MB para o /boot/efi para sistemas UEFI)
-- /dev/sda2 (2GB para swap)
-- /dev/sda3 (todo o resto para o /)
+In my case, I always create 3 partitions:
+- /dev/sda1 (500MB for /boot/efi for UEFI systems)
+- /dev/sda2 (2GB for swap)
+- /dev/sda3 (all the rest for /)
 
 <div align="center">
   <img src="https://i.imgur.com/JK2LpVA.png">
 </div>
 
-Sempre marcando o Type da partição para suas respectivas funções.
+Always set the partition type for their respective functions.
 
-Em seguida, faça o cfdisk escrever as partições clicando na indo na opção “Write” e saia indo na opção "Quit"
+Then, make cfdisk write the partitions by clicking on the "Write" option and exit by going to the "Quit" option.
 
-## Formatando as partições
-Após criar todas as partições, vamos formatá-las para os seus respectivos formatos.
+## Formatting the partitions
+After creating all the partitions, we will format them to their respective formats.
 
-Para formatar a partição de boot (/boot/efi)
+To format the boot partition (/boot/efi):
 ```bash
 mkfs.fat -F 32 /dev/sda1
 ```
-Para criar a partição de Swap
+To create the Swap partition:
 ```bash
 mkswap /dev/sda2
 ```
-Para formatar a partição raiz do sistema
+To format the system root partition:
 ```bash
 mkfs.ext4 /dev/sda3
 ```
 
-## Montagem do sistema
-Após formatar, o próximo passo é montar as partições, para isso inicialmente monto a partição raiz do sistema com:
+## Mounting the system
+After formatting, the next step is to mount the partitions, for this we initially mount the system root partition with:
 ```bash
 mount /dev/sda3 /mnt
 ```
-Logo em seguida, crio o diretório de **/boot/efi** do sistema usando o comando:
+Then, we create the **/boot/efi** directory of the system using the command:
 ```bash
 mkdir -p /mnt/boot/efi
 ```
-Monto a partição de boot neste diretório criado
+We mount the boot partition in this created directory:
 ```bash
 mount /dev/sda1 /mnt/boot/efi
 ```
-Ativo a partição de Swap
+We activate the Swap partition:
 ```bash
 swapon /dev/sda2
 ```
 
-# Instalando pacotes de instalação do Arch Linux
-Agora iremos instalar os pacotes base e o kernel Linux do Arch além de algumas ferramentas de editores de texto (*vim*) e ferramenta de gerenciamento de rede (*dhcpcd*)
+## Installing Arch Linux installation packages
+Now we will install the base packages and the Arch Linux kernel as well as some text editor tools (vim) and network management tool (dhcpcd):
 ```bash
 pacstrap -K /mnt base base-devel linux linux-firmware vim dhcpcd
 ```
-Este é o processo mais demorado da instalação pois depende da velocidade de Download.
+This is the most time-consuming process of the installation as it depends on the download speed.
 
-Após a instalação, geramos nossa tabela **fstab** que sinaliza para o boot onde estão montadas cada uma das partições com o comando
+After the installation, we generate our **fstab** table which tells the boot where each of the partitions is mounted with the command:
 ```bash
 genfstab -U /mnt >> /mnt/etc/fstab
 ```
 
-## Dentro do sistema
-Para entrarmos no ambiente do sistema para fazermos as configurações iremos utilizar o comando
+## Inside the system
+To enter the system environment to make the configurations we will use the command:
 ```bash
 arch-chroot /mnt
 ```
+This part is optional for me, but we can set the system date and time by creating a symbolic link from our region's file to our localtime.
 
-Esta parte para mim é opcional porém podemos configurar a data e hora do sistema criando um link simbólico do arquivo de nossa região em nosso localtime.
+In my case, using Local Time in Brasilia would be:
 
-No meu caso, usando o horário de Brasília seria:
 ```bash
 ln -sf /usr/share/zoneinfo/America/Sao_Paulo /etc/localtime/
 ```
 
-Próximo passo seria configurar o idioma do sistema, neste caso gosto de deixar o sistema em Inglês, portanto vamos editar o arquivo **locale.gen**
+The next step would be to configure the system language, in this case I like to leave the system in English, so let's edit the **locale.gen** file:
+
 ```bash
 vim /etc/locale.gen
 ```
-Dentro dele haverá diversas linguagens comentadas com um **#**, logo iremos para o idioma que queremos e *descomentamos* o idioma que queremos removendo o **#** do começo da linha.
+Within it, there will be various languages commented out with a **#**, so we will go to the language we want and uncomment the language we want by removing the **#** from the beginning of the line.
 
-No meu caso o **en_US.UTF-8 UTF-8**
+In my case, it's **en_US.UTF-8 UTF-8**
 
 <div align="center">
   <img src="https://i.imgur.com/7XZFpq3.png">
 </div>
 
-Após isso salve o arquivo e gere a configuração de idioma usando o comando
+After that, save the file and generate the language configuration using the command
 ```bash
 locale-gen
 ```
-Agora iremos configurar o nome do computador na rede, para isso edite o arquivo **/etc/hostname** e coloque o nome do computador, no meu caso eu sempre coloco como **arch**
+Now we will configure the computer name on the network, to do this, edit the file **/etc/hostname** and put the computer name, in my case, I always put it as **arch**
 
-## Configurando usuários
+## Setting Users
 
-Primeiramente, configure a senha do usuário **root** (muito importante)
+First, set the password for the **root** user (very important)
 ```bash
 passwd
 ```
 
-Crie o seu usuário, irei usar de exemplo o meu username *mdxv* com o comando
+Create your user, I will use my username *mdxv* as an example with the command
 ```bash
 useradd -m -g users -G wheel -s /bin/bash mdxv
 ```
-Em seguida defina uma senha para esse usuário
+Then set a password for this user
+
 ```bash
 passwd mdxv
 ```
 
-Agora iremos instalar alguns pacotes úteis para logo em seguida fazer a instalação do GRUB
+Now we will install some useful packages and then install GRUB
 ```bash
 pacman -S dosfstools os-prober mtools dialog grub efibootmgr sudo
 ```
 
-Caso eu tenha feito a instalação com rede Wi-Fi, talvez seja necessário eu instalar esses programas adicionais
+If I have installed using Wi-Fi, I may need to install these additional programs
 ```bash
 pacman -S wpa_supplicant wireless_tools
 ```
 
-## Instalação do GRUB
+## GRUB Installation
 
-Para instalar o GRUB no meu sistema que utiliza o sistema UEFI, instale o grub com o comando
+To install GRUB on my system that uses the UEFI system, install GRUB with the command
 ```bash
 grub-install --target=x86_64-efi --efi-directory=/boot/efi --bootloader-id=arch_grub --recheck
 ```
-E gere o arquivo de configuração do GRUB
+And generate the GRUB configuration file
 ```bash
 grub-mkconfig -o /boot/grub/grub.cfg
 ```
 
-Caso eu esteja instalando o GRUB em um sistema BIOS-Legacy, irá ser os seguintes comandos
+If I am installing GRUB on a BIOS-Legacy system, the following commands will be used
 ```bash
 grub-install --target=i386-pc --recheck /dev/sda
 ```
-E gere o arquivo de configuração
+And generate the configuration file
 ```bash
 grub-mkconfig -o /boot/grub/grub.cfg
 ```
 
-Por fim, reinicie o sistema e se tudo der certo, ele irá iniciar com GRUB
+Finally, restart the system and if all goes well, it will start with GRUB
 
 <div align="center">
   <img src="https://i.imgur.com/5NEF1vW.png">
 </div>
 
-## Pós-instalação
+## Post-Installation
 
-Após iniciar o sistema, logamos em nosso usuário e veremos que não possuímos permissão de utilizar o comando sudo, pois temos que adicionar o usuário no arquivo *sudoers* e realizar a configuração de rede com o *dhcpcd*
+After starting the system, log in as our user and we will see that we do not have permission to use the sudo command because we have to add the user to the *sudoers* file and configure the network with *dhcpcd*
 
-Para isso precisamos logar como *root* com o comando
+For this, we need to log in as **root** with the command
 ```bash
 su
 ```
-Digite a senha do usuário root.
+Enter the root user's password.
 
-Agora iremos editar o arquivo *sudoers*, para isso utilizaremos o comando *visudo* definindo o editor de texto com o **vim**
+Now we will edit the sudoers file, for this, we will use the visudo command defining the text editor with **vim**
 ```bash
 EDITOR=vim visudo
 ```
-Procure pela linha `%wheel ALL=(ALL:ALL) ALL` descomente removendo a “#” da frente do texto
+Look for the line `%wheel ALL=(ALL:ALL) ALL` uncomment it by removing the "#" from the front of the text
 
-agora saia do usuário root e verifique se já é possível utilizar o comando root já utilizando o comando do **dhcpcd** para configurarmos a Internet.
+Now exit the root user and check if it is already possible to use the root command using the **dhcpcd** command to configure the Internet
 ```bash
 sudo dhcpcd
 ```
-
-E pronto, o Arch Linux está instalado e configurado, a partir daí é só configurar o seu sistema do jeito que você quiser.
+And that's it, Arch Linux is installed and configured, from there you just need to configure your system the way you want.
