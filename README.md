@@ -1,5 +1,5 @@
 <div align="center">
-  <img src="https://i.imgur.com/SZRtuUM.png" width="500"><br/>
+  <img src="https://i.imgur.com/UCnaQ4V.png" width="500"><br/>
   <a href="README.pt-BR.md">
     <img src="https://img.shields.io/badge/Read%20in-Portuguese-blue"/><br/>
   </a>
