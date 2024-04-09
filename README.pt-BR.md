@@ -1,6 +1,6 @@
 <div align="center">
   <img src="https://i.imgur.com/UCnaQ4V.png" width="500"><br/>
-  <a href="README.pt-BR.md">
+  <a href="README.md">
     <img src="https://img.shields.io/badge/Leia%20em-Ingles-blue"/><br/>
   </a>
   <p>📔 Um pequeno guia de instalação para Arch Linux para mim.</p>
